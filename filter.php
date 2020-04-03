@@ -101,10 +101,14 @@ class filter_syntaxhighlighter extends moodle_text_filter {
             }
             $styleurl = new moodle_url($css);
 
-            $page->requires->js_call_amd('filter_syntaxhighlighter/hljs', 'initHighlighting');
             $page->requires->css($styleurl);
 
             $jsinitialised = true;
+
+        }
+        // Do this only in the context of a course the filter is enabled in.
+        if (array_key_exists("syntaxhighlighter", filter_get_active_in_context($context))) {
+            $page->requires->js_call_amd('filter_syntaxhighlighter/hljs', 'initHighlighting');
         }
     }
 }
